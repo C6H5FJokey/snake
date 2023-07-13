@@ -9,6 +9,12 @@
 script = ExtResource("1_76t2y")
 map_resource = ExtResource("2_t58do")
 
+[node name="Playground" type="Polygon2D" parent="."]
+unique_name_in_owner = true
+z_index = -2
+color = Color(0.262745, 0.262745, 0.415686, 1)
+polygon = PackedVector2Array(0, 0, 256, 0, 256, 256, 0, 256)
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
 
@@ -21,36 +27,6 @@ unique_name_in_owner = true
 [node name="ToStart" parent="UI" instance=ExtResource("6_5vlps")]
 unique_name_in_owner = true
 visible = false
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-stretch = true
-
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
-handle_input_locally = false
-size = Vector2i(1152, 648)
-render_target_update_mode = 4
-
-[node name="BackGround" type="CanvasLayer" parent="SubViewportContainer/SubViewport"]
-layer = -128
-
-[node name="ColorRect" type="ColorRect" parent="SubViewportContainer/SubViewport/BackGround"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.207843, 0.168627, 0.258824, 1)
-
-[node name="Playground" type="Polygon2D" parent="SubViewportContainer/SubViewport"]
-unique_name_in_owner = true
-z_index = -2
-color = Color(0.262745, 0.262745, 0.415686, 1)
-polygon = PackedVector2Array(0, 0, 256, 0, 256, 256, 0, 256)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="to_started" from="UI/ToStart" to="." method="_on_to_start_to_started"]

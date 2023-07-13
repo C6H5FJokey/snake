@@ -8,7 +8,6 @@ signal wall_eaten
 
 
 @onready var snake_head: Node2D = $SnakeHead
-@onready var camera_2d: Camera2D = %Camera2D
 
 
 @export_group("Component")
@@ -90,7 +89,6 @@ func _add_body(index: int, last_move: Vector2i):
 		body.add_child(remote_transform_2d)
 		snake_head.global_position = body.global_position
 		remote_transform_2d.remote_path = remote_transform_2d.get_path_to(snake_head)
-		camera_2d.force_update_scroll()
 
 
 func become_dead():

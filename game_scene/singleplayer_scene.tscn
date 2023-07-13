@@ -5,14 +5,27 @@
 [ext_resource type="Script" path="res://misc/input_controller.gd" id="3_ls14y"]
 
 [node name="GameScene" instance=ExtResource("1_8ki44")]
+snakes_path = Array[NodePath]([NodePath("Snake")])
 
-[node name="SubViewport" parent="SubViewportContainer" index="0"]
-handle_input_locally = false
-render_target_update_mode = 4
-
-[node name="Snake" parent="SubViewportContainer/SubViewport" index="2" node_paths=PackedStringArray("controller") instance=ExtResource("2_vwl0q")]
+[node name="Snake" parent="." index="0" node_paths=PackedStringArray("controller") instance=ExtResource("2_vwl0q")]
 controller = NodePath("InputController")
 start_pos = Vector2i(4, 1)
 
-[node name="InputController" type="Node" parent="SubViewportContainer/SubViewport/Snake" index="1"]
+[node name="Camera2D" type="Camera2D" parent="Snake/SnakeHead" index="0"]
+position_smoothing_enabled = true
+
+[node name="InputController" type="Node" parent="Snake" index="1"]
 script = ExtResource("3_ls14y")
+
+[node name="BackGround" type="CanvasLayer" parent="." index="4"]
+layer = -128
+
+[node name="ColorRect" type="ColorRect" parent="BackGround" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.207843, 0.168627, 0.258824, 1)
+
+[editable path="Snake"]

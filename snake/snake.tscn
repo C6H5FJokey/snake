@@ -6,7 +6,3 @@
 script = ExtResource("1_efol5")
 
 [node name="SnakeHead" type="Node2D" parent="."]
-
-[node name="Camera2D" type="Camera2D" parent="SnakeHead"]
-unique_name_in_owner = true
-position_smoothing_enabled = true

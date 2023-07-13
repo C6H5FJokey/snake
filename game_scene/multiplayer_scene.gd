@@ -1,8 +1,6 @@
 extends GameScene
 
 
-@onready var sub_viewport_2: SubViewport = $SubViewportContainer2/SubViewport
-
 
 func test_game_over() -> bool:
 	if snakes.reduce(
@@ -36,8 +34,4 @@ func game_over() -> void:
 
 func _init_game() -> void:
 	super()
-	sub_viewport_2.world_2d = sub_viewport.world_2d
-
-
-func _process(delta: float) -> void:
-	$SubViewportContainer2/SubViewport/Camera2D.global_position = snakes[1].snake_head.global_position
+	

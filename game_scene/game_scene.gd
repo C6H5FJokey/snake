@@ -1,5 +1,5 @@
 extends Node
-class_name  GameScene
+class_name GameScene
 
 signal game_finished
 signal move_requested
@@ -8,14 +8,15 @@ signal move_requested
 @onready var timer: Timer = $Timer
 @onready var to_start: Control = %ToStart
 @onready var outcome: Control = %Outcome
-@onready var sub_viewport: SubViewport = $SubViewportContainer/SubViewport
 
 @export_group("Component")
 @export var map_resource: MapResource
+@export_group("property")
+@export var snakes_path: Array[NodePath]
 
 var food_index: int
 var food_node: Node2D
-var snakes: Array
+var snakes: Array[Snake]
 
 var walls_pos: Array[Vector2i]
 
@@ -32,7 +33,8 @@ func _ready() -> void:
 			Vector2(right, down),
 			Vector2(0, down)
 			])
-	snakes = get_tree().get_nodes_in_group("Snake")
+	
+	_init_snakes()
 	
 	for snake in snakes:
 		snake.map_resource = map_resource
@@ -77,19 +79,20 @@ func _on_snake_food_eaten() -> void:
 
 func put_wall(cell_pos: Vector2i) -> void:
 	var wall = preload("res://map/piece/wall.tscn").instantiate()
-	sub_viewport.add_child(wall)
+	add_child(wall)
 	wall.owner = self
 	wall.global_position = map_resource.calculate_map_position(cell_pos)
 
 
 func spawn_food():
+	print_debug(spawn_food_num)
 	var snake_bodys: Array
 	for snake in snakes:
 		snake_bodys.append_array(snake.snake_body)
 	food_index = _spawn_food_index(snake_bodys + walls_pos)
 	map_resource.map[food_index] = MapResource.FOOD
 	food_node = preload("res://map/piece/food.tscn").instantiate()
-	sub_viewport.add_child(food_node)
+	add_child(food_node)
 	food_node.owner = self
 	food_node.global_position = map_resource.calculate_map_position(map_resource.from_index(food_index))
 	spawn_food_num += 1
@@ -125,3 +128,8 @@ func _on_to_start_to_started() -> void:
 
 func _init_game():
 	pass
+
+
+func _init_snakes():
+	for path in snakes_path:
+		snakes.append(get_node(path) as Snake)
