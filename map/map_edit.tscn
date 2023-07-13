@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=3 uid="uid://b1b0vf0yyuf2m"]
+
+[ext_resource type="Texture2D" uid="uid://duh6sos5eic5k" path="res://map/navi.png" id="1_4rvri"]
+[ext_resource type="Script" path="res://map/map_edit.gd" id="2_2dnvx"]
+[ext_resource type="Resource" uid="uid://bpkgs08a3fn5x" path="res://map/map1.tres" id="3_edwlu"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_31kud"]
+texture = ExtResource("1_4rvri")
+0:0/0 = 0
+1:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_iy4py"]
+sources/0 = SubResource("TileSetAtlasSource_31kud")
+
+[node name="MapEdit" type="TileMap"]
+tile_set = SubResource("TileSet_iy4py")
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 65536, 0, 65536, 65536, 0, 131072, 65536, 0, 196608, 65536, 0, 1, 65536, 0, 2, 65536, 0, 3, 65536, 0, 4, 65536, 0, 5, 65536, 0, 6, 65536, 0, 7, 65536, 0, 8, 65536, 0, 9, 65536, 0, 10, 65536, 0, 11, 65536, 0, 65547, 65536, 0, 131083, 65536, 0, 196619, 65536, 0, 262155, 65536, 0, 327691, 65536, 0, 393227, 65536, 0, 458763, 65536, 0, 524299, 65536, 0, 524298, 65536, 0, 524297, 65536, 0, 524296, 65536, 0, 524295, 65536, 0, 524294, 65536, 0, 524293, 65536, 0, 524292, 65536, 0, 524291, 65536, 0, 524290, 65536, 0, 524289, 65536, 0, 524288, 65536, 0, 458752, 65536, 0, 393216, 65536, 0, 327680, 65536, 0, 262144, 65536, 0)
+script = ExtResource("2_2dnvx")
+map_resource = ExtResource("3_edwlu")

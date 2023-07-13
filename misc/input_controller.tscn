@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://co516q3xxv81u"]
+
+[ext_resource type="Script" path="res://misc/input_controller.gd" id="1_22tpy"]
+
+[node name="InputController" type="Node"]
+script = ExtResource("1_22tpy")

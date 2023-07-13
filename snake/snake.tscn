@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://fee34opn7q53"]
+
+[ext_resource type="Script" path="res://snake/snake.gd" id="1_efol5"]
+
+[node name="Snake" type="Node" groups=["Snake"]]
+script = ExtResource("1_efol5")
+
+[node name="SnakeHead" type="Node2D" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="SnakeHead"]
+unique_name_in_owner = true
+position_smoothing_enabled = true

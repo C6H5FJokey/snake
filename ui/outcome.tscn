@@ -1,0 +1,81 @@
+[gd_scene load_steps=3 format=3 uid="uid://dw144hyjpwn6b"]
+
+[ext_resource type="Script" path="res://ui/outcome.gd" id="1_ikww6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tyg5l"]
+font_size = 128
+outline_size = 8
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Outcome" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ikww6")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -347.5
+offset_top = -136.0
+offset_right = 347.5
+offset_bottom = 42.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "GAMEOVER"
+label_settings = SubResource("LabelSettings_tyg5l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Buttons" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Back" type="Button" parent="Buttons"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = 77.0
+offset_right = -64.0
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Back"
+
+[node name="Reset" type="Button" parent="Buttons"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = 77.0
+offset_right = 256.0
+offset_bottom = 141.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+text = "Reset"
+
+[connection signal="pressed" from="Buttons/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="Buttons/Reset" to="." method="_on_reset_pressed"]

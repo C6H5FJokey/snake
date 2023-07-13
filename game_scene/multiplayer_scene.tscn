@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://cflejbmt3cns2"]
+
+[ext_resource type="PackedScene" uid="uid://bai3s8ofuxrkt" path="res://game_scene/game_scene.tscn" id="1_istk0"]
+[ext_resource type="Script" path="res://game_scene/multiplayer_scene.gd" id="2_0aby5"]
+[ext_resource type="PackedScene" uid="uid://fee34opn7q53" path="res://snake/snake.tscn" id="2_tu0l4"]
+[ext_resource type="Script" path="res://misc/input_controller.gd" id="3_q7hf1"]
+[ext_resource type="PackedScene" uid="uid://c53rxmf06qw78" path="res://misc/2p_controller.tscn" id="4_0xb6o"]
+
+[node name="GameScene" instance=ExtResource("1_istk0")]
+script = ExtResource("2_0aby5")
+
+[node name="SubViewportContainer" parent="." index="2"]
+anchors_preset = -1
+anchor_right = 0.5
+
+[node name="SubViewport" parent="SubViewportContainer" index="0"]
+size = Vector2i(576, 648)
+
+[node name="1P" parent="SubViewportContainer/SubViewport" index="1" node_paths=PackedStringArray("controller") instance=ExtResource("2_tu0l4")]
+controller = NodePath("2pController")
+start_pos = Vector2i(4, 1)
+
+[node name="2pController" parent="SubViewportContainer/SubViewport/1P" index="1" instance=ExtResource("4_0xb6o")]
+
+[node name="2P" parent="SubViewportContainer/SubViewport" index="2" node_paths=PackedStringArray("controller") instance=ExtResource("2_tu0l4")]
+controller = NodePath("InputController")
+start_pos = Vector2i(4, 7)
+
+[node name="InputController" type="Node" parent="SubViewportContainer/SubViewport/2P" index="1"]
+script = ExtResource("3_q7hf1")
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="." index="3"]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer2" index="0"]
+handle_input_locally = false
+size = Vector2i(576, 648)
+render_target_update_mode = 4
+
+[node name="BackGround" type="CanvasLayer" parent="SubViewportContainer2/SubViewport" index="0"]
+layer = -128
+
+[node name="ColorRect" type="ColorRect" parent="SubViewportContainer2/SubViewport/BackGround" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.207843, 0.168627, 0.258824, 1)
+
+[node name="Camera2D" type="Camera2D" parent="SubViewportContainer2/SubViewport" index="1"]
+position_smoothing_enabled = true

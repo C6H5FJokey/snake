@@ -1,0 +1,33 @@
+[gd_scene load_steps=5 format=3 uid="uid://brovabeooxx1"]
+
+[ext_resource type="PackedScene" uid="uid://fee34opn7q53" path="res://snake/snake.tscn" id="1_dpxp4"]
+[ext_resource type="Resource" uid="uid://bpkgs08a3fn5x" path="res://map/map1.tres" id="2_8kirt"]
+[ext_resource type="PackedScene" uid="uid://co516q3xxv81u" path="res://misc/input_controller.tscn" id="3_jixal"]
+
+[sub_resource type="GDScript" id="GDScript_6lwig"]
+script/source = "extends Node2D
+
+@onready var snake: Snake = $Snake
+
+func _ready() -> void:
+	print_debug(Vector2.from_angle(Vector2.RIGHT.angle_to(Vector2.UP)))
+
+func _on_timer_timeout() -> void:
+	snake._on_move_requested()
+"
+
+[node name="test" type="Node2D"]
+script = SubResource("GDScript_6lwig")
+
+[node name="Snake" parent="." node_paths=PackedStringArray("controller") instance=ExtResource("1_dpxp4")]
+map_resource = ExtResource("2_8kirt")
+controller = NodePath("InputController")
+snake_body = Array[Vector2i]([Vector2i(5, 1), Vector2i(4, 1), Vector2i(3, 1), Vector2i(2, 1)])
+
+[node name="InputController" parent="Snake" instance=ExtResource("3_jixal")]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="MapResource" load_steps=2 format=3 uid="uid://bpkgs08a3fn5x"]
+
+[ext_resource type="Script" path="res://map/map_resource.gd" id="1_tvjgj"]
+
+[resource]
+script = ExtResource("1_tvjgj")
+size = Vector2i(12, 9)
+cell_size = Vector2i(64, 64)
+map = Array[int]([1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])

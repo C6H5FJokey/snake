@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://b2bydpnhnnjw3"]
+
+[sub_resource type="GDScript" id="GDScript_gh0d7"]
+script/source = "extends Node2D
+
+@onready var polygon_2d: Polygon2D = $Polygon2D
+
+func _ready() -> void:
+	var point := PackedVector2Array()
+	for i in range(0, 16):
+		point.append(Vector2.from_angle(i/16.0 * 2*PI)*24)
+	polygon_2d.polygon = point
+"
+
+[node name="Food" type="Node2D"]
+script = SubResource("GDScript_gh0d7")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.407843, 0.760784, 0.827451, 1)
+polygon = PackedVector2Array(24, 0, 22.1731, 9.1844, 16.9706, 16.9706, 9.1844, 22.1731, -1.04907e-06, 24, -9.1844, 22.1731, -16.9706, 16.9706, -22.1731, 9.1844, -24, -2.09815e-06, -22.1731, -9.1844, -16.9706, -16.9706, -9.18441, -22.1731, 2.86197e-07, -24, 9.18441, -22.1731, 16.9706, -16.9706, 22.1731, -9.1844)
