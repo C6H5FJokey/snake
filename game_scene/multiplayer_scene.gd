@@ -1,6 +1,7 @@
 extends GameScene
 
-
+@export var sub_viewports_path: Array[NodePath]
+var sub_viewports: Array[SubViewport]
 
 func test_game_over() -> bool:
 	if snakes.reduce(
@@ -34,4 +35,7 @@ func game_over() -> void:
 
 func _init_game() -> void:
 	super()
-	
+	for path in sub_viewports_path:
+		sub_viewports.append(get_node(path))
+	for sub_viewport in sub_viewports:
+		sub_viewport.world_2d = get_viewport().world_2d
