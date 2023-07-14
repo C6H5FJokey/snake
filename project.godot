@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 Game="*res://autoloads/game.gd"
 Events="*res://autoloads/events.gd"
 
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
 [editor]
 
 version_control/plugin_name="GitPlugin"

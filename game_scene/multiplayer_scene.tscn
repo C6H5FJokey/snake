@@ -102,5 +102,14 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.207843, 0.168627, 0.258824, 1)
 
+[node name="ColorRect" type="ColorRect" parent="SplitScreen" index="1"]
+anchors_preset = -1
+anchor_left = 0.499
+anchor_right = 0.501
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
 [editable path="Player1"]
 [editable path="Player2"]

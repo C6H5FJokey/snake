@@ -1,0 +1,103 @@
+[gd_scene load_steps=4 format=3 uid="uid://ceeysdq7wqdcy"]
+
+[ext_resource type="Script" path="res://ui/host_menu.gd" id="1_62ovd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_uv1u3"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_rymqy"]
+font_size = 32
+
+[node name="HostMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 510.0
+script = ExtResource("1_62ovd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -255.0
+offset_right = 255.0
+grow_horizontal = 2
+
+[node name="InputForm" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/InputForm"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Player Name:"
+label_settings = SubResource("LabelSettings_uv1u3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerName" type="LineEdit" parent="VBoxContainer/InputForm"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+alignment = 1
+context_menu_enabled = false
+caret_blink = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/InputForm"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Port:"
+label_settings = SubResource("LabelSettings_uv1u3")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Port" type="LineEdit" parent="VBoxContainer/InputForm"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
+alignment = 1
+max_length = 5
+context_menu_enabled = false
+virtual_keyboard_type = 2
+caret_blink = true
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Echo" type="Label" parent="VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 32
+label_settings = SubResource("LabelSettings_rymqy")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Back" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Back"
+
+[node name="Host" type="Button" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Host"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Back" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Host" to="." method="_on_host_pressed"]
