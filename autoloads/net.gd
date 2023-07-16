@@ -33,3 +33,4 @@ func confirm_connection():
 func set_my_player_name(id: int, player_name: String):
 	player_info[id] = player_name
 	player_info_updated.emit()
+

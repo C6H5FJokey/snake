@@ -26,11 +26,13 @@ var rear_body: SnakeBody
 func _ready() -> void:
 	if controller:
 		controller.next_move = move_direction
+	
+	_init_snake.call_deferred()
+
+func _init_snake():
 	for i in range(snake_body_length):
 		if i >= snake_body.size():
 			snake_body.append(snake_body[-1]-move_direction if i > 0 else start_pos)
-	if not map_resource:
-		await owner.ready
 	for i in range(snake_body_length):
 		var last_move: Vector2i
 		last_move = snake_body[i]-snake_body[i+1] if i < snake_body_length - 1 else Vector2i.ZERO

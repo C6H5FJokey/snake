@@ -27,5 +27,6 @@ unique_name_in_owner = true
 visible = false
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="game_reset" from="UI/Outcome" to="." method="_on_outcome_game_reset"]
+[connection signal="back_pressed" from="UI/Outcome" to="." method="_on_outcome_back_pressed"]
+[connection signal="reset_pressed" from="UI/Outcome" to="." method="_on_outcome_reset_pressed"]
 [connection signal="to_started" from="UI/ToStart" to="." method="_on_to_start_to_started"]

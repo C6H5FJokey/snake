@@ -3,17 +3,24 @@ extends Control
 const player_panel_res = preload("res://ui/player_panel.tscn")
 
 @onready var player_container: VBoxContainer = $PlayerContainer
+@onready var ready_btn: Button = $Ready
 
 var player_id: Array
 var ready_dict: Dictionary = {}
 
 func _ready() -> void:
+	if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
+		_on_multiplayer_server_disconnected()
+		return
+	if multiplayer.get_unique_id() == 1 and Net.player_name == "--server":
+		ready_btn.hide()
 	multiplayer.multiplayer_peer.refuse_new_connections = false
 	Net.set_my_player_name(multiplayer.get_unique_id(), Net.player_name)
 	player_id = Array(multiplayer.get_peers())
 	player_id.append(multiplayer.get_unique_id())
 	player_id.sort()
 	_update_player_container()
+	ready_btn.grab_focus.call_deferred()
 	
 	Net.set_my_player_name.rpc(multiplayer.get_unique_id(), Net.player_name)
 	Net.player_info_updated.connect(_update_player_container)

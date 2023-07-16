@@ -1,9 +1,17 @@
 extends GameScene
 
+func _ready() -> void:
+	super()
+	outcome.reset_btn.hide()
+	multiplayer.server_disconnected.connect(_on_multiplayer_server_disconnected)
+	
+
 
 func _init_snakes():
 	var all_id := Array(multiplayer.get_peers())
 	all_id.append(multiplayer.get_unique_id())
+	if Net.player_info[1] == "--server":
+		all_id.erase(1)
 	all_id.sort()
 	for id in all_id:
 		var snake: SyncSnake = preload("res://snake/sync_snake.tscn").instantiate()
@@ -26,9 +34,11 @@ func _init_snakes():
 			camera.owner = snake
 
 
-@rpc
 func game_update():
 	super()
+	_sync_game_update.rpc(food_index, spawn_food_num)
+	if test_game_over():
+		game_over.rpc()
 
 
 func start_game():
@@ -37,11 +47,6 @@ func start_game():
 	spawn_food()
 	_sync_food.rpc(food_index, spawn_food_num)
 	timer.start()
-
-
-func _on_timer_timeout():
-	super()
-	_sync_game_update.rpc(food_index, spawn_food_num)
 
 
 @rpc
@@ -68,5 +73,52 @@ func _sync_game_update(_food_index: int, _spawn_food_num: int) -> void:
 		is_food_eated = false
 
 
-func test_game_over() -> bool :
-	return super()
+func test_game_over() -> bool:
+	if snakes.size() <= 1:
+		return super()
+	if snakes.reduce(
+		func(accum: int ,snake: Snake): 
+			return accum + (0 if snake.is_dead else 1)
+			, 0) <= 1:
+		return true
+	return false
+
+
+func _on_outcome_back_pressed() -> void:
+	get_tree().change_scene_to_file("res://ui/lobby.tscn")
+
+
+@rpc
+func game_over():
+	if snakes.size() <= 1:
+		super()
+		return
+	var win_snake: Snake
+	for snake in snakes:
+		if snake is Snake:
+			if win_snake :
+				if snake.snake_body_length > win_snake.snake_body_length:
+					win_snake = snake
+				elif snake.snake_body_length == win_snake.snake_body_length:
+					win_snake = null
+			else:
+				win_snake = snake
+			if not snake.is_dead:
+				win_snake = snake
+				break
+	if win_snake:
+		outcome.text = "%s Win!"%win_snake.name
+	else:
+		outcome.text = "Draw"
+	super()
+
+
+func _on_multiplayer_server_disconnected() -> void:
+	var dialog := AcceptDialog.new()
+	dialog.canceled.connect(dialog.queue_free)
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.dialog_text = "Server_was_disconnected"
+	get_window().add_child(dialog)
+	dialog.popup_centered()
+	multiplayer.multiplayer_peer.close()
+	get_tree().change_scene_to_file("res://ui/main_menu.tscn")

@@ -85,7 +85,6 @@ func put_wall(cell_pos: Vector2i) -> void:
 
 
 func spawn_food():
-	print_debug(spawn_food_num)
 	var snake_bodys: Array = []
 	for snake in snakes:
 		snake_bodys.append_array(snake.snake_body)
@@ -131,14 +130,21 @@ func _init_game():
 
 
 func _init_snakes():
+	var index: int = 0
 	for path in snakes_path:
-		snakes.append(get_node(path) as Snake)
-	for snake in snakes:
+		var snake: Snake = get_node(path)
+		snakes.append(snake)
+		snake.start_pos = map_resource.start_pos[index]
+		snake.move_direction = map_resource.move_direction[index]
 		snake.map_resource = map_resource
 		snake.food_eaten.connect(_on_snake_food_eaten)
 		move_requested.connect(snake._on_move_requested)
+		index += 1
 
 
-func _on_outcome_game_reset() -> void:
+func _on_outcome_back_pressed() -> void:
+	get_tree().change_scene_to_file("res://ui/main_menu.tscn")
+
+
+func _on_outcome_reset_pressed() -> void:
 	get_tree().reload_current_scene()
-	
