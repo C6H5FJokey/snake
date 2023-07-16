@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cuiulhtn6jdmi"]
+
+[ext_resource type="PackedScene" uid="uid://bai3s8ofuxrkt" path="res://game_scene/game_scene.tscn" id="1_4o70q"]
+[ext_resource type="Script" path="res://game_scene/online_scene.gd" id="2_fjrej"]
+
+[node name="GameScene" instance=ExtResource("1_4o70q")]
+script = ExtResource("2_fjrej")
+
+[node name="BackGround" type="CanvasLayer" parent="." index="3"]
+layer = -128
+
+[node name="ColorRect" type="ColorRect" parent="BackGround" index="0"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.207843, 0.168627, 0.258824, 1)

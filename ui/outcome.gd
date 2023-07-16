@@ -1,5 +1,7 @@
 extends Control
 
+signal game_reset
+
 @onready var label: Label = $Label
 
 var text: String : 
@@ -11,4 +13,4 @@ func _on_back_pressed() -> void:
 
 
 func _on_reset_pressed() -> void:
-	get_tree().reload_current_scene()
+	game_reset.emit()

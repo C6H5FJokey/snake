@@ -42,6 +42,8 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 3
+focus_next = NodePath("../Address")
+focus_previous = NodePath("../../HBoxContainer/Back")
 theme_override_font_sizes/font_size = 32
 alignment = 1
 context_menu_enabled = false
@@ -58,10 +60,11 @@ vertical_alignment = 1
 [node name="Address" type="LineEdit" parent="VBoxContainer/InputForm"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_next = NodePath("../Port")
+focus_previous = NodePath("../PlayerName")
 theme_override_font_sizes/font_size = 32
 alignment = 1
 context_menu_enabled = false
-virtual_keyboard_type = 2
 caret_blink = true
 
 [node name="Label3" type="Label" parent="VBoxContainer/InputForm"]
@@ -75,6 +78,8 @@ vertical_alignment = 1
 [node name="Port" type="LineEdit" parent="VBoxContainer/InputForm"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_next = NodePath("../../HBoxContainer/Join")
+focus_previous = NodePath("../Address")
 theme_override_font_sizes/font_size = 32
 alignment = 1
 context_menu_enabled = false
@@ -105,12 +110,18 @@ alignment = 1
 [node name="Back" type="Button" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+focus_neighbor_right = NodePath("../Join")
+focus_next = NodePath("../../InputForm/PlayerName")
+focus_previous = NodePath(".")
 theme_override_font_sizes/font_size = 32
 text = "Back"
 
 [node name="Join" type="Button" parent="VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
+focus_neighbor_left = NodePath("../Back")
+focus_next = NodePath(".")
+focus_previous = NodePath("../../InputForm/Port")
 theme_override_font_sizes/font_size = 32
 text = "Join"
 

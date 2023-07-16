@@ -70,9 +70,10 @@ func _on_move_requested():
 
 func _add_body(index: int, last_move: Vector2i):
 	var body: SnakeBody = preload("res://snake/snake_body.tscn").instantiate()
-	add_child(body)
+	body.map_resource = map_resource
 	body.body_index = index
 	body.last_move = last_move
+	add_child(body)
 	body.owner = self
 	var gl_pos = map_resource.calculate_map_position(snake_body[index])
 	var gl_rot = Vector2(last_move).angle()

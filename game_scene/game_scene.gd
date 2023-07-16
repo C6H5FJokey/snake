@@ -10,13 +10,14 @@ signal move_requested
 @onready var outcome: Control = %Outcome
 
 @export_group("Component")
-@export var map_resource: MapResource
+@export var map_resource_instance: MapResource
 @export_group("property")
 @export var snakes_path: Array[NodePath]
 
 var food_index: int
 var food_node: Node2D
 var snakes: Array[Snake]
+var map_resource: MapResource
 
 var walls_pos: Array[Vector2i]
 
@@ -24,22 +25,21 @@ var is_food_eated: bool = false
 var spawn_food_num: int = 0
 
 func _ready() -> void:
-	if map_resource:
-		var right = map_resource.cell_size.x * map_resource.size.x
-		var down = map_resource.cell_size.y * map_resource.size.y
-		playground.polygon = PackedVector2Array([
-			Vector2(0, 0),
-			Vector2(right, 0),
-			Vector2(right, down),
-			Vector2(0, down)
-			])
+	if not map_resource_instance:
+		map_resource = Game.map_resource.duplicate()
+	else:
+		map_resource = map_resource_instance.duplicate()
+	var right = map_resource.cell_size.x * map_resource.size.x
+	var down = map_resource.cell_size.y * map_resource.size.y
+	playground.polygon = PackedVector2Array([
+		Vector2(0, 0),
+		Vector2(right, 0),
+		Vector2(right, down),
+		Vector2(0, down)
+		])
 	
 	_init_snakes()
-	
-	for snake in snakes:
-		snake.map_resource = map_resource
-		snake.food_eaten.connect(_on_snake_food_eaten)
-		move_requested.connect(snake._on_move_requested)
+
 	
 	for i in range(map_resource.map.size()):
 		if map_resource.map[i] == MapResource.WALL:
@@ -48,7 +48,7 @@ func _ready() -> void:
 	
 	_init_game()
 	
-	to_start._on_to_start()
+	to_start.call_deferred("_on_to_start")
 
 func _on_timer_timeout() -> void:
 	game_update()
@@ -86,7 +86,7 @@ func put_wall(cell_pos: Vector2i) -> void:
 
 func spawn_food():
 	print_debug(spawn_food_num)
-	var snake_bodys: Array
+	var snake_bodys: Array = []
 	for snake in snakes:
 		snake_bodys.append_array(snake.snake_body)
 	food_index = _spawn_food_index(snake_bodys + walls_pos)
@@ -133,3 +133,12 @@ func _init_game():
 func _init_snakes():
 	for path in snakes_path:
 		snakes.append(get_node(path) as Snake)
+	for snake in snakes:
+		snake.map_resource = map_resource
+		snake.food_eaten.connect(_on_snake_food_eaten)
+		move_requested.connect(snake._on_move_requested)
+
+
+func _on_outcome_game_reset() -> void:
+	get_tree().reload_current_scene()
+	

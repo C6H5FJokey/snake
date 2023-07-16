@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7fyyj0jlcj64"]
+
+[ext_resource type="PackedScene" uid="uid://fee34opn7q53" path="res://snake/snake.tscn" id="1_h4ero"]
+[ext_resource type="Script" path="res://snake/sync_snake.gd" id="2_2dfoh"]
+[ext_resource type="Script" path="res://misc/sync_controller.gd" id="3_7fljk"]
+
+[node name="Snake" node_paths=PackedStringArray("controller") instance=ExtResource("1_h4ero")]
+script = ExtResource("2_2dfoh")
+id = 0
+controller = NodePath("SyncController")
+
+[node name="SyncController" type="Node" parent="." index="1"]
+script = ExtResource("3_7fljk")

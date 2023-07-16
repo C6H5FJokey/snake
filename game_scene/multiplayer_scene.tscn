@@ -60,6 +60,7 @@ size = Vector2i(576, 648)
 render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="SplitScreen/SubViewports/SubViewportContainer/SubViewport" index="0"]
+visible = false
 position_smoothing_enabled = true
 
 [node name="BackGround" type="CanvasLayer" parent="SplitScreen/SubViewports/SubViewportContainer/SubViewport" index="1"]
@@ -89,6 +90,7 @@ size = Vector2i(576, 648)
 render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="SplitScreen/SubViewports/SubViewportContainer2/SubViewport" index="0"]
+visible = false
 position_smoothing_enabled = true
 
 [node name="BackGround" type="CanvasLayer" parent="SplitScreen/SubViewports/SubViewportContainer2/SubViewport" index="1"]

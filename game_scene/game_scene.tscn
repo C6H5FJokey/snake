@@ -1,13 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://bai3s8ofuxrkt"]
+[gd_scene load_steps=4 format=3 uid="uid://bai3s8ofuxrkt"]
 
 [ext_resource type="Script" path="res://game_scene/game_scene.gd" id="1_76t2y"]
-[ext_resource type="Resource" uid="uid://bpkgs08a3fn5x" path="res://map/map1.tres" id="2_t58do"]
 [ext_resource type="PackedScene" uid="uid://dw144hyjpwn6b" path="res://ui/outcome.tscn" id="5_d1f8y"]
 [ext_resource type="PackedScene" uid="uid://c364ant4pfapu" path="res://ui/to_start.tscn" id="6_5vlps"]
 
 [node name="GameScene" type="Node"]
 script = ExtResource("1_76t2y")
-map_resource = ExtResource("2_t58do")
 
 [node name="Playground" type="Polygon2D" parent="."]
 unique_name_in_owner = true
@@ -29,4 +27,5 @@ unique_name_in_owner = true
 visible = false
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="game_reset" from="UI/Outcome" to="." method="_on_outcome_game_reset"]
 [connection signal="to_started" from="UI/ToStart" to="." method="_on_to_start_to_started"]

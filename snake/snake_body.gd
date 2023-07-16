@@ -7,16 +7,21 @@ class_name  SnakeBody
 var body_index: int
 var last_move: Vector2i : set = _set_last_move
 var next_body: SnakeBody : set = _set_next_body
+var map_resource: MapResource
 
 
 func _ready() -> void:
 	if not next_body:
 		line_2d.hide()
+	if not map_resource:
+		await owner.ready
+		map_resource = owner.map_resource
+	line_2d.set_point_position(0, Vector2.ZERO)
+	line_2d.set_point_position(1, -last_move * map_resource.cell_size)
 
 
 func _on_snake_move_finished() -> void:
 	var _owner := (owner as Snake)
-	var map_resource := _owner.map_resource
 	var gl_pos = map_resource.calculate_map_position(_owner.snake_body[body_index])
 	var gl_rot = Vector2(last_move).angle()
 	set_pos_and_rot(gl_pos, gl_rot)
