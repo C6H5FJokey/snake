@@ -22,12 +22,11 @@ signal wall_eaten
 var is_dead: bool = false
 var front_body: SnakeBody
 var rear_body: SnakeBody
+var wait_time: float
 
 func _ready() -> void:
-	if controller:
-		controller.next_move = move_direction
-	
 	_init_snake.call_deferred()
+
 
 func _init_snake():
 	for i in range(snake_body_length):
@@ -75,6 +74,7 @@ func _add_body(index: int, last_move: Vector2i):
 	body.map_resource = map_resource
 	body.body_index = index
 	body.last_move = last_move
+	body.wait_time = wait_time
 	add_child(body)
 	body.owner = self
 	var gl_pos = map_resource.calculate_map_position(snake_body[index])

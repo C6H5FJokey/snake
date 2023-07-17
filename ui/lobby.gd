@@ -5,8 +5,9 @@ const player_panel_res = preload("res://ui/player_panel.tscn")
 @onready var player_container: VBoxContainer = $PlayerContainer
 @onready var ready_btn: Button = $Ready
 
+@export var ready_dict: Dictionary = {}
+
 var player_id: Array
-var ready_dict: Dictionary = {}
 
 func _ready() -> void:
 	if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:

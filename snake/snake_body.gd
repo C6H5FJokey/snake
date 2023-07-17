@@ -8,6 +8,7 @@ var body_index: int
 var last_move: Vector2i : set = _set_last_move
 var next_body: SnakeBody : set = _set_next_body
 var map_resource: MapResource
+var wait_time: float
 
 
 func _ready() -> void:

@@ -13,6 +13,7 @@ signal move_requested
 @export var map_resource_instance: MapResource
 @export_group("property")
 @export var snakes_path: Array[NodePath]
+@export_range(0,2) var wait_time: float = 1.0
 
 var food_index: int
 var food_node: Node2D
@@ -137,6 +138,7 @@ func _init_snakes():
 		snake.start_pos = map_resource.start_pos[index]
 		snake.move_direction = map_resource.move_direction[index]
 		snake.map_resource = map_resource
+		snake.wait_time = wait_time
 		snake.food_eaten.connect(_on_snake_food_eaten)
 		move_requested.connect(snake._on_move_requested)
 		index += 1
