@@ -66,7 +66,6 @@ theme_override_font_sizes/font_size = 32
 alignment = 1
 max_length = 5
 context_menu_enabled = false
-virtual_keyboard_type = 2
 caret_blink = true
 
 [node name="Control" type="Control" parent="VBoxContainer"]

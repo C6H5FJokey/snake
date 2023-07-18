@@ -66,7 +66,5 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 11
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
 [connection signal="toggled" from="Ready" to="." method="_on_ready_toggled"]

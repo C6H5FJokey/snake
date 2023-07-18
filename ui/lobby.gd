@@ -5,8 +5,7 @@ const player_panel_res = preload("res://ui/player_panel.tscn")
 @onready var player_container: VBoxContainer = $PlayerContainer
 @onready var ready_btn: Button = $Ready
 
-@export var ready_dict: Dictionary = {}
-
+var ready_dict: Dictionary = {}
 var player_id: Array
 
 func _ready() -> void:
@@ -20,11 +19,13 @@ func _ready() -> void:
 	player_id = Array(multiplayer.get_peers())
 	player_id.append(multiplayer.get_unique_id())
 	player_id.sort()
+	Net.request_update(multiplayer.get_unique_id(), get_path(), "ready_dict", 0 if is_multiplayer_authority() else 1)
 	_update_player_container()
 	ready_btn.grab_focus.call_deferred()
 	
 	Net.set_my_player_name.rpc(multiplayer.get_unique_id(), Net.player_name)
 	Net.player_info_updated.connect(_update_player_container)
+	Net.updated.connect(_on_net_updated)
 	multiplayer.peer_connected.connect(_on_multiplayer_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_multiplayer_peer_disconnected)
 	multiplayer.server_disconnected.connect(_on_multiplayer_server_disconnected)
@@ -63,17 +64,18 @@ func _update_player_container() -> void:
 	for id in player_id:
 		if id == 1 and Net.player_info.get(id) == "--server":
 			continue
-		var player_planel: PlayerPanel = player_container.get_node_or_null(str(id))
-		if not player_planel:
-			player_planel = create_player_panel(id)
-			player_container.add_child(player_planel)
-			player_container.move_child(player_planel, index)
-			player_planel.player_name.text = Net.player_info.get(id, "Player")
-			player_planel.owner = self
-		player_planel.no.text = "%dP"%(index+1)
+		var player_panel: PlayerPanel = player_container.get_node_or_null(str(id))
+		if not player_panel:
+			player_panel = create_player_panel(id)
+			player_container.add_child(player_panel)
+			player_container.move_child(player_panel, index)
+			player_panel.player_name.text = Net.player_info.get(id, "Player")
+			player_panel.owner = self
+		player_panel.no.text = "%dP"%(index+1)
+		player_panel.ready_label.visible = ready_dict.get(id, false)
 		index += 1
 		if is_multiplayer_authority() and id != multiplayer.get_unique_id():
-			player_planel.remove_btn.show()
+			player_panel.remove_btn.show()
 
 
 func _on_back_pressed() -> void:
@@ -88,15 +90,18 @@ func _on_player_panel_player_removed(id: int) -> void:
 
 
 func _on_ready_toggled(button_pressed: bool) -> void:
-	_ready_toggled.rpc(multiplayer.get_unique_id(), button_pressed)
+	_ready_toggled(multiplayer.get_unique_id(), button_pressed)
+	if not is_multiplayer_authority():
+		_ready_toggled.rpc_id(get_multiplayer_authority(), multiplayer.get_unique_id(), button_pressed)
 
 
-@rpc("any_peer", "call_local")
+@rpc("any_peer")
 func _ready_toggled(id: int, pressd: bool) -> void:
 	ready_dict[id] = pressd
 	var player_panel: PlayerPanel = player_container.get_node(str(id))
 	player_panel.ready_label.visible = pressd
 	if is_multiplayer_authority():
+		Net.send_update(0, get_path(), "ready_dict")
 		if player_id.all(func(id: int): return ready_dict.get(id, false)):
 			start_game.rpc()
 
@@ -112,3 +117,14 @@ func create_player_panel(id: int) -> PlayerPanel:
 	player_panel.name = str(id)
 	player_panel.player_removed.connect(_on_player_panel_player_removed.bind(id))
 	return player_panel
+
+
+func _on_net_updated(path: NodePath, property: String, value: Variant, from_id: int):
+	if not path == get_path():
+		return
+	if property == "ready_dict":
+		if from_id == get_multiplayer_authority():
+			ready_dict = value
+		if is_multiplayer_authority():
+			ready_dict[from_id] = value[from_id]
+		_update_player_container()

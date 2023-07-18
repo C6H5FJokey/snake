@@ -67,8 +67,6 @@ func game_update() -> void:
 		game_over()
 		return
 	if is_food_eated:
-		if food_node:
-			food_node.queue_free()
 		map_resource.map[food_index] = MapResource.EMPTY
 		spawn_food()
 		is_food_eated = false
@@ -91,9 +89,10 @@ func spawn_food():
 		snake_bodys.append_array(snake.snake_body)
 	food_index = _spawn_food_index(snake_bodys + walls_pos)
 	map_resource.map[food_index] = MapResource.FOOD
-	food_node = preload("res://map/piece/food.tscn").instantiate()
-	add_child(food_node)
-	food_node.owner = self
+	if not food_node:
+		food_node = preload("res://map/piece/food.tscn").instantiate()
+		add_child(food_node)
+		food_node.owner = self
 	food_node.global_position = map_resource.calculate_map_position(map_resource.from_index(food_index))
 	spawn_food_num += 1
 
