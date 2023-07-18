@@ -4,8 +4,8 @@
 [ext_resource type="Script" path="res://TouchButton.gd" id="1_i5cro"]
 
 [node name="TouchButton" type="TouchScreenButton"]
-position = Vector2(-160, -160)
-scale = Vector2(2, 2)
+position = Vector2(-120, -120)
+scale = Vector2(1.5, 1.5)
 texture_normal = ExtResource("1_15n2a")
 passby_press = true
 visibility_mode = 1

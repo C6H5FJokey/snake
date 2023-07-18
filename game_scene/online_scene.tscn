@@ -6,6 +6,9 @@
 [node name="GameScene" instance=ExtResource("1_4o70q")]
 script = ExtResource("2_fjrej")
 
+[node name="TouchButton2" parent="UI/TouchButton" index="0"]
+position = Vector2(128, -312)
+
 [node name="BackGround" type="CanvasLayer" parent="." index="3"]
 layer = -128
 
@@ -16,3 +19,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.207843, 0.168627, 0.258824, 1)
+metadata/_edit_lock_ = true

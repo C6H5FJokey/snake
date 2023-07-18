@@ -35,7 +35,7 @@ anchor_bottom = 1.0
 grow_vertical = 0
 
 [node name="TouchButton2" parent="UI/TouchButton" instance=ExtResource("4_adyab")]
-position = Vector2(128, -224)
+position = Vector2(128, -312)
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="back_pressed" from="UI/Outcome" to="." method="_on_outcome_back_pressed"]

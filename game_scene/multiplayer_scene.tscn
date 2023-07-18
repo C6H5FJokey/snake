@@ -35,7 +35,7 @@ remote_path = NodePath("../../../SplitScreen/SubViewports/SubViewportContainer2/
 script = ExtResource("4_oql73")
 
 [node name="TouchButton2" parent="UI/TouchButton" index="0"]
-position = Vector2(128, -456)
+position = Vector2(128, -312)
 action_left = "2p_left"
 action_right = "2p_right"
 action_up = "2p_up"
@@ -52,7 +52,7 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="TouchButton2" parent="UI/TouchButton2" index="0" instance=ExtResource("5_pg3q3")]
-position = Vector2(-456, -456)
+position = Vector2(-368, -312)
 texture_normal = ExtResource("6_0pmbm")
 
 [node name="SplitScreen" type="CanvasLayer" parent="." index="5"]
