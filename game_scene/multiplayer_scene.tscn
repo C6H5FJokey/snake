@@ -36,7 +36,6 @@ script = ExtResource("4_oql73")
 
 [node name="TouchButton2" parent="UI/TouchButton" index="0"]
 position = Vector2(128, -456)
-visibility_mode = 0
 action_left = "2p_left"
 action_right = "2p_right"
 action_up = "2p_up"
@@ -55,7 +54,6 @@ grow_vertical = 0
 [node name="TouchButton2" parent="UI/TouchButton2" index="0" instance=ExtResource("5_pg3q3")]
 position = Vector2(-456, -456)
 texture_normal = ExtResource("6_0pmbm")
-visibility_mode = 0
 
 [node name="SplitScreen" type="CanvasLayer" parent="." index="5"]
 
