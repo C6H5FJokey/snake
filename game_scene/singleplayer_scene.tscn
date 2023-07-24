@@ -1,10 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://dcs7chtaico8w"]
+[gd_scene load_steps=6 format=3 uid="uid://dcs7chtaico8w"]
 
 [ext_resource type="PackedScene" uid="uid://bai3s8ofuxrkt" path="res://game_scene/game_scene.tscn" id="1_8ki44"]
+[ext_resource type="Script" path="res://game_scene/singleplayer_scene.gd" id="2_mj327"]
 [ext_resource type="PackedScene" uid="uid://fee34opn7q53" path="res://snake/snake.tscn" id="2_vwl0q"]
 [ext_resource type="Script" path="res://misc/input_controller.gd" id="3_ls14y"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_j4ot8"]
+font_size = 512
+font_color = Color(1, 1, 1, 0)
+outline_size = 10
+outline_color = Color(1, 1, 1, 0.247059)
+
 [node name="GameScene" instance=ExtResource("1_8ki44")]
+script = ExtResource("2_mj327")
 snakes_path = Array[NodePath]([NodePath("Snake")])
 
 [node name="Snake" parent="." index="0" node_paths=PackedStringArray("controller") instance=ExtResource("2_vwl0q")]
@@ -16,6 +24,18 @@ position_smoothing_enabled = true
 
 [node name="InputController" type="Node" parent="Snake" index="1"]
 script = ExtResource("3_ls14y")
+
+[node name="Scores" type="Label" parent="UI" index="2"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+label_settings = SubResource("LabelSettings_j4ot8")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="BackGround" type="CanvasLayer" parent="." index="4"]
 layer = -128

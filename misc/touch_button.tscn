@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c2c8jgsabg5xo"]
 
-[ext_resource type="Texture2D" uid="uid://ds1qiycn8f8n8" path="res://misc/transparentDark07.png" id="1_15n2a"]
-[ext_resource type="Script" path="res://TouchButton.gd" id="1_i5cro"]
+[ext_resource type="Texture2D" uid="uid://ds1qiycn8f8n8" path="res://assets/transparentDark07.png" id="1_15n2a"]
+[ext_resource type="Script" path="res://misc/TouchButton.gd" id="2_4fc68"]
 
 [node name="TouchButton" type="TouchScreenButton"]
 position = Vector2(-120, -120)
@@ -9,7 +9,7 @@ scale = Vector2(1.5, 1.5)
 texture_normal = ExtResource("1_15n2a")
 passby_press = true
 visibility_mode = 1
-script = ExtResource("1_i5cro")
+script = ExtResource("2_4fc68")
 action_left = "ui_left"
 action_right = "ui_right"
 action_up = "ui_up"

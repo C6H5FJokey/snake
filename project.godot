@@ -20,6 +20,8 @@ config/icon="res://icon.svg"
 Game="*res://autoloads/game.gd"
 Events="*res://autoloads/events.gd"
 Net="*res://autoloads/net.gd"
+Settings="*res://autoloads/settings.gd"
+Bgm="*res://autoloads/bgm.tscn"
 
 [display]
 

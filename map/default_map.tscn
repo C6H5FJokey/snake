@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://ue1xapdu084k"]
+
+[ext_resource type="Script" path="res://map/default_map.gd" id="1_aq6v4"]
+[ext_resource type="Resource" uid="uid://x0hk60cq3egu" path="res://map/default.tres" id="2_gx1pc"]
+
+[node name="temp_map_edit" type="Node"]
+script = ExtResource("1_aq6v4")
+map_resource = ExtResource("2_gx1pc")

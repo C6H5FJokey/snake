@@ -1,5 +1,9 @@
 extends GameScene
 
+@onready var scores_label: Label = $UI/Scores
+
+var scores: int = 0
+
 func _ready() -> void:
 	super()
 	outcome.reset_btn.hide()
@@ -11,13 +15,14 @@ func _ready() -> void:
 func _init_snakes():
 	var all_id := Array(multiplayer.get_peers())
 	all_id.append(multiplayer.get_unique_id())
-	if Net.player_info[1] == "--server":
+	if Net.player_info[1].name == "--server":
 		all_id.erase(1)
 	all_id.sort()
 	for id in all_id:
 		var snake: SyncSnake = preload("res://snake/sync_snake.tscn").instantiate()
 		snake.id = id
-		snake.name = Net.player_info.get(id, "%dP"%(snakes.size()+1))
+		snake.name = Net.player_info.get(id, {}).get("name", "%dP"%(snakes.size()+1))
+		snake.color = Net.player_info.get(id, {}).get("color", Color("f2f0e5"))
 		snake.map_resource = map_resource
 		snake.start_pos = map_resource.start_pos[snakes.size()]
 		snake.move_direction = map_resource.move_direction[snakes.size()]
@@ -26,7 +31,7 @@ func _init_snakes():
 		snake.owner = self
 		snake.controller.id = id
 		snake.controller.set_multiplayer_authority(id)
-		snake.food_eaten.connect(_on_snake_food_eaten)
+		snake.food_eaten.connect(_on_snake_food_eaten.bind(snake))
 		move_requested.connect(snake._on_move_requested)
 		if id == multiplayer.get_unique_id():
 			var camera := Camera2D.new()
@@ -42,33 +47,10 @@ func game_update():
 
 
 func start_game():
-	if not is_multiplayer_authority():
-		return
-	spawn_food()
-	timer.start()
-
-
-#@rpc
-#func _sync_food(_food_index: int, _spawn_food_num: int) -> void:
-#	food_index = _food_index
-#	map_resource.map[food_index] = MapResource.FOOD
-#	if not food_node:
-#		food_node = preload("res://map/piece/food.tscn").instantiate()
-#		add_child(food_node)
-#		food_node.owner = self
-#	food_node.global_position = map_resource.calculate_map_position(map_resource.from_index(food_index))
-#	spawn_food_num = _spawn_food_num
-#
-#
-#@rpc
-#func _sync_game_update(_food_index: int, _spawn_food_num: int) -> void:
-#	move_requested.emit()
-#	if test_game_over():
-#		return
-#	if is_food_eated:
-#		map_resource.map[food_index] = MapResource.EMPTY
-#		_sync_food(_food_index, _spawn_food_num)
-#		is_food_eated = false
+	if is_multiplayer_authority():
+		super()
+	if Settings.show_scores:
+		scores_label.show()
 
 
 func spawn_food() -> void:
@@ -95,13 +77,15 @@ func _on_outcome_back_pressed() -> void:
 func game_over(id: int = -1) -> void:
 	if snakes.size() <= 1:
 		super()
+		$UI/Outcome/Buttons/Back.grab_focus.call_deferred()
 		return
 	if not id == -1:
 		if not id == 0:
-			outcome.text = "%s Win!"%Net.player_info[id]
+			outcome.text = "%s Win!"%Net.player_info[id].name
 		else:
 			outcome.text = "Draw"
 		outcome.show()
+		$UI/Outcome/Buttons/Back.grab_focus.call_deferred()
 		return
 	var win_snake: Snake
 	for snake in snakes:
@@ -124,6 +108,7 @@ func game_over(id: int = -1) -> void:
 		game_over.rpc(0)
 	outcome.show()
 	timer.stop()
+	$UI/Outcome/Buttons/Back.grab_focus.call_deferred()
 
 
 func _on_multiplayer_server_disconnected() -> void:
@@ -137,7 +122,7 @@ func _on_multiplayer_server_disconnected() -> void:
 	get_tree().change_scene_to_file("res://ui/main_menu.tscn")
 
 
-func _on_net_updated(path: NodePath, property: String, value: Variant, from_id: int):
+func _on_net_updated(path: NodePath, property: String, value: Variant, _from_id: int):
 	if not path == get_path():
 		return
 	match property:
@@ -148,3 +133,18 @@ func _on_net_updated(path: NodePath, property: String, value: Variant, from_id: 
 				add_child(food_node)
 				food_node.owner = self
 			food_node.global_position = map_resource.calculate_map_position(map_resource.from_index(food_index))
+
+
+func _on_snake_food_eaten(snake: Snake):
+	super(snake)
+	_rpc_on_snake_food_eaten.rpc(snake.id)
+	if multiplayer.get_unique_id() == snake.id:
+		scores += 1
+		scores_label.text = str(scores)
+
+
+@rpc
+func _rpc_on_snake_food_eaten(snake_id: int):
+	if multiplayer.get_unique_id() == snake_id:
+		scores += 1
+		scores_label.text = str(scores)

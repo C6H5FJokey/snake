@@ -7,7 +7,10 @@ signal updated(path: NodePath, property: String, value: Variant)
 const PORT: int = 4433
 
 var player_info: Dictionary = {}
-var player_name: String
+var ready_dict: Dictionary = {}
+var map_info: Dictionary = Game.map_info
+var game_speed: float = 1.0
+var player_name: String = "Player"
 
 func create_client(address: String, port: int) -> bool:
 	var peer = ENetMultiplayerPeer.new()
@@ -18,9 +21,9 @@ func create_client(address: String, port: int) -> bool:
 	return true
 
 
-func create_server(port: int) -> bool:
+func create_server(port: int, max_client: int = 3) -> bool:
 	var peer = ENetMultiplayerPeer.new()
-	peer.create_server(port, 3)
+	peer.create_server(port, max_client)
 	if peer.get_connection_status() == MultiplayerPeer.CONNECTION_DISCONNECTED:
 		return false
 	multiplayer.multiplayer_peer = peer	
@@ -31,8 +34,11 @@ func confirm_connection():
 	connection_confirmed.emit()
 	
 @rpc("any_peer")
-func set_my_player_name(id: int, player_name: String):
-	player_info[id] = player_name
+func set_my_player_info(id: int, name: String, color: Color):
+	player_info[id] = {
+		"name": name,
+		"color": color
+	}
 	player_info_updated.emit()
 
 

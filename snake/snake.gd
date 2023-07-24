@@ -18,6 +18,7 @@ signal wall_eaten
 @export var move_direction: Vector2i = Vector2i.RIGHT ## 蛇头方向
 @export var snake_body_length: int = 4 ## 蛇身长度
 @export var snake_body: Array[Vector2i] ## 蛇身坐标
+@export var color: Color
 
 var is_dead: bool = false
 var front_body: SnakeBody
@@ -75,6 +76,7 @@ func _add_body(index: int, last_move: Vector2i):
 	body.body_index = index
 	body.last_move = last_move
 	body.wait_time = wait_time
+	body.color = color
 	add_child(body)
 	body.owner = self
 	var gl_pos = map_resource.calculate_map_position(snake_body[index])
@@ -83,6 +85,7 @@ func _add_body(index: int, last_move: Vector2i):
 	# 尾部指针
 	if rear_body:
 		rear_body.next_body = body
+		body.prev_body = rear_body
 	rear_body = body
 	move_finished.connect(body._on_snake_move_finished)
 	## 如果是蛇头

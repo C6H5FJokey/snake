@@ -1,15 +1,22 @@
-[gd_scene load_steps=7 format=3 uid="uid://cflejbmt3cns2"]
+[gd_scene load_steps=8 format=3 uid="uid://cflejbmt3cns2"]
 
 [ext_resource type="PackedScene" uid="uid://bai3s8ofuxrkt" path="res://game_scene/game_scene.tscn" id="1_istk0"]
 [ext_resource type="Script" path="res://game_scene/multiplayer_scene.gd" id="2_0aby5"]
 [ext_resource type="PackedScene" uid="uid://fee34opn7q53" path="res://snake/snake.tscn" id="2_tu0l4"]
 [ext_resource type="Script" path="res://misc/input_controller.gd" id="4_oql73"]
 [ext_resource type="PackedScene" uid="uid://c2c8jgsabg5xo" path="res://misc/touch_button.tscn" id="5_pg3q3"]
-[ext_resource type="Texture2D" uid="uid://dv5k7s63lppv0" path="res://misc/transparentLight07.png" id="6_0pmbm"]
+[ext_resource type="Texture2D" uid="uid://dv5k7s63lppv0" path="res://assets/transparentLight07.png" id="6_3t88p"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_y80kp"]
+font_size = 512
+font_color = Color(1, 1, 1, 0)
+outline_size = 10
+outline_color = Color(1, 1, 1, 0.247059)
 
 [node name="GameScene" instance=ExtResource("1_istk0")]
 script = ExtResource("2_0aby5")
 sub_viewports_path = Array[NodePath]([NodePath("SplitScreen/SubViewports/SubViewportContainer/SubViewport"), NodePath("SplitScreen/SubViewports/SubViewportContainer2/SubViewport")])
+scores_labels_path = Array[NodePath]([NodePath("UI/Scores"), NodePath("UI/Scores2")])
 snakes_path = Array[NodePath]([NodePath("Player1"), NodePath("Player2")])
 
 [node name="Player1" parent="." index="0" node_paths=PackedStringArray("controller") instance=ExtResource("2_tu0l4")]
@@ -35,7 +42,6 @@ remote_path = NodePath("../../../SplitScreen/SubViewports/SubViewportContainer2/
 script = ExtResource("4_oql73")
 
 [node name="TouchButton2" parent="UI/TouchButton" index="0"]
-position = Vector2(128, -312)
 action_left = "2p_left"
 action_right = "2p_right"
 action_up = "2p_up"
@@ -53,7 +59,36 @@ grow_vertical = 0
 
 [node name="TouchButton2" parent="UI/TouchButton2" index="0" instance=ExtResource("5_pg3q3")]
 position = Vector2(-368, -312)
-texture_normal = ExtResource("6_0pmbm")
+texture_normal = ExtResource("6_3t88p")
+
+[node name="Scores" type="Label" parent="UI" index="4"]
+visible = false
+anchors_preset = -1
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -26.5
+offset_bottom = 26.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+label_settings = SubResource("LabelSettings_y80kp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Scores2" type="Label" parent="UI" index="5"]
+visible = false
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -26.5
+offset_bottom = 26.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "0"
+label_settings = SubResource("LabelSettings_y80kp")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SplitScreen" type="CanvasLayer" parent="." index="5"]
 

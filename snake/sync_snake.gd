@@ -17,7 +17,7 @@ func _on_move_requested():
 		Net.send_update(0, get_path(), "snake_body")
 
 
-func _on_net_updated(path: NodePath, property: String, value: Variant, from_id: int) -> void:
+func _on_net_updated(path: NodePath, property: String, value: Variant, _from_id: int) -> void:
 	if not path == get_path():
 		return
 	match property:

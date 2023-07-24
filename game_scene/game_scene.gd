@@ -9,6 +9,7 @@ signal move_requested
 @onready var to_start: Control = %ToStart
 @onready var outcome: Control = %Outcome
 
+
 @export_group("Component")
 @export var map_resource_instance: MapResource
 @export_group("property")
@@ -26,6 +27,9 @@ var is_food_eated: bool = false
 var spawn_food_num: int = 0
 
 func _ready() -> void:
+	wait_time = wait_time / Game.game_speed
+	timer.wait_time = wait_time
+	
 	if not map_resource_instance:
 		map_resource = Game.map_resource.duplicate()
 	else:
@@ -56,7 +60,6 @@ func _on_timer_timeout() -> void:
 
 
 func game_update() -> void:
-	move_requested.emit()
 	for snake in snakes:
 		for other in snakes:
 			if snake == other:
@@ -66,13 +69,14 @@ func game_update() -> void:
 	if test_game_over():
 		game_over()
 		return
+	move_requested.emit()
 	if is_food_eated:
 		map_resource.map[food_index] = MapResource.EMPTY
 		spawn_food()
 		is_food_eated = false
-		
 
-func _on_snake_food_eaten() -> void:
+
+func _on_snake_food_eaten(_snake: Snake) -> void:
 	is_food_eated = true
 
 
@@ -114,6 +118,7 @@ func test_game_over() -> bool:
 func game_over() -> void:
 	outcome.show()
 	timer.stop()
+	$UI/Outcome/Buttons/Reset.grab_focus()
 
 
 func start_game() -> void:
@@ -138,7 +143,7 @@ func _init_snakes():
 		snake.move_direction = map_resource.move_direction[index]
 		snake.map_resource = map_resource
 		snake.wait_time = wait_time
-		snake.food_eaten.connect(_on_snake_food_eaten)
+		snake.food_eaten.connect(_on_snake_food_eaten.bind(snake))
 		move_requested.connect(snake._on_move_requested)
 		index += 1
 

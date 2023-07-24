@@ -1,8 +1,5 @@
 extends Control
 
-signal back_pressed
-signal host_pressed(port: int)
-
 @onready var player_name: LineEdit = $VBoxContainer/InputForm/PlayerName
 @onready var port: LineEdit = $VBoxContainer/InputForm/Port
 @onready var echo: Label = $VBoxContainer/Control/Echo
@@ -14,16 +11,19 @@ func _ready() -> void:
 	port.placeholder_text = str(Net.PORT)
 
 func _on_back_pressed() -> void:
-	player_name.text = ""
-	port.text = ""
-	echo.text = ""
-	back_pressed.emit()
+	get_tree().change_scene_to_file("res://ui/main_menu.tscn")
 
 
 func _on_host_pressed() -> void:
-	if _check_input():
+	if not _check_input():
+		return
+	var max_clients: int = 3 if not player_name.text == "--server" else 4
+	if not Net.create_server(int(port.text) if port.text else Net.PORT, max_clients):
+		echo.text = "Can't host game!"
+		echo_color = Color.RED
+	else:
 		Net.player_name = player_name.text
-		host_pressed.emit(int(port.text) if port.text else Net.PORT)
+		get_tree().change_scene_to_file("res://ui/lobby.tscn")
 
 
 func _check_input() -> bool:

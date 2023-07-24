@@ -9,7 +9,12 @@ script = ExtResource("1_x05nj")
 color = Color(0.94902, 0.941176, 0.898039, 1)
 polygon = PackedVector2Array(-24, -24, 24, -24, 24, 24, -24, 24)
 
-[node name="Line2D" type="Line2D" parent="."]
+[node name="LineNext" type="Line2D" parent="."]
 points = PackedVector2Array(0, 0, -48, 0)
+width = 24.0
+default_color = Color(0.94902, 0.941176, 0.898039, 1)
+
+[node name="LinePrev" type="Line2D" parent="."]
+points = PackedVector2Array(0, 0, 48, 0)
 width = 24.0
 default_color = Color(0.94902, 0.941176, 0.898039, 1)

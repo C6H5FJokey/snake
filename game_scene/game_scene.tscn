@@ -7,6 +7,7 @@
 
 [node name="GameScene" type="Node"]
 script = ExtResource("1_76t2y")
+wait_time = 0.5
 
 [node name="Playground" type="Polygon2D" parent="."]
 unique_name_in_owner = true
@@ -15,7 +16,6 @@ color = Color(0.262745, 0.262745, 0.415686, 1)
 polygon = PackedVector2Array(0, 0, 256, 0, 256, 256, 0, 256)
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
 
 [node name="UI" type="CanvasLayer" parent="."]
 layer = 15

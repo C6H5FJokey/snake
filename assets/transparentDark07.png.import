@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ds1qiycn8f8n8"
-path="res://.godot/imported/transparentDark07.png-145c45fef8b79b8eb636b4b8cfe478e2.ctex"
+path="res://.godot/imported/transparentDark07.png-e2c9891490557d8bf9cb865679f56b2b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://misc/transparentDark07.png"
-dest_files=["res://.godot/imported/transparentDark07.png-145c45fef8b79b8eb636b4b8cfe478e2.ctex"]
+source_file="res://assets/transparentDark07.png"
+dest_files=["res://.godot/imported/transparentDark07.png-e2c9891490557d8bf9cb865679f56b2b.ctex"]
 
 [params]
 

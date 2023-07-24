@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bs13vkhvmum6w"]
+[gd_scene load_steps=4 format=3 uid="uid://bs13vkhvmum6w"]
 
 [ext_resource type="Script" path="res://ui/main_menu.gd" id="1_rfcd8"]
-[ext_resource type="PackedScene" uid="uid://ceeysdq7wqdcy" path="res://ui/host_menu.tscn" id="2_c3tan"]
-[ext_resource type="PackedScene" uid="uid://bpgfwhj5o7gof" path="res://ui/join_menu.tscn" id="3_v6nhr"]
+[ext_resource type="PackedScene" uid="uid://c8lwmwbmi7f06" path="res://ui/back_ground.tscn" id="2_1oxgv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_jqssr"]
 font_size = 128
@@ -18,17 +17,10 @@ grow_vertical = 2
 script = ExtResource("1_rfcd8")
 metadata/_edit_lock_ = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="BackGround" parent="." instance=ExtResource("2_1oxgv")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0.207843, 0.168627, 0.258824, 1)
-metadata/_edit_lock_ = true
 
-[node name="Label" type="Label" parent="ColorRect"]
+[node name="Label" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -47,7 +39,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 metadata/_edit_lock_ = true
 
-[node name="MainButtons" type="Control" parent="ColorRect"]
+[node name="MainButtons" type="Control" parent="."]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -55,13 +47,14 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -256.0
+offset_top = -45.0
 offset_right = 255.0
+offset_bottom = -45.0
 grow_horizontal = 2
-grow_vertical = 0
-metadata/_edit_lock_ = true
+grow_vertical = 2
 metadata/_edit_group_ = true
 
-[node name="HBoxContainer" type="VBoxContainer" parent="ColorRect/MainButtons"]
+[node name="HBoxContainer" type="VBoxContainer" parent="MainButtons"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -70,79 +63,48 @@ anchor_bottom = 1.0
 offset_left = -255.744
 offset_right = 255.744
 grow_horizontal = 2
-theme_override_constants/separation = 20
+theme_override_constants/separation = 15
 
-[node name="Singleplayer" type="Button" parent="ColorRect/MainButtons/HBoxContainer"]
+[node name="Singleplayer" type="Button" parent="MainButtons/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Singleplayer"
 
-[node name="LocalMultiplayer" type="Button" parent="ColorRect/MainButtons/HBoxContainer"]
+[node name="LocalMultiplayer" type="Button" parent="MainButtons/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Local Multiplayer"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MainButtons/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainButtons/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="hostGame" type="Button" parent="ColorRect/MainButtons/HBoxContainer/HBoxContainer"]
+[node name="hostGame" type="Button" parent="MainButtons/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "host game"
 
-[node name="JoinGame" type="Button" parent="ColorRect/MainButtons/HBoxContainer/HBoxContainer"]
+[node name="JoinGame" type="Button" parent="MainButtons/HBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "join game"
 
-[node name="Quit" type="Button" parent="ColorRect/MainButtons/HBoxContainer"]
+[node name="Settings" type="Button" parent="MainButtons/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Settings"
+
+[node name="Quit" type="Button" parent="MainButtons/HBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Quit"
 
-[node name="HostMenu" parent="ColorRect" instance=ExtResource("2_c3tan")]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -255.0
-offset_right = 255.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_lock_ = true
-
-[node name="JoinMenu" parent="ColorRect" instance=ExtResource("3_v6nhr")]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -255.0
-offset_right = 255.0
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_lock_ = true
-
-[node name="ConnectTimer" type="Timer" parent="."]
-wait_time = 3.0
-one_shot = true
-
-[connection signal="pressed" from="ColorRect/MainButtons/HBoxContainer/Singleplayer" to="." method="_on_singleplayer_pressed"]
-[connection signal="pressed" from="ColorRect/MainButtons/HBoxContainer/LocalMultiplayer" to="." method="_on_local_multiplayer_pressed"]
-[connection signal="pressed" from="ColorRect/MainButtons/HBoxContainer/HBoxContainer/hostGame" to="." method="_on_host_game_pressed"]
-[connection signal="pressed" from="ColorRect/MainButtons/HBoxContainer/HBoxContainer/JoinGame" to="." method="_on_join_game_pressed"]
-[connection signal="pressed" from="ColorRect/MainButtons/HBoxContainer/Quit" to="." method="_on_quit_pressed"]
-[connection signal="back_pressed" from="ColorRect/HostMenu" to="." method="_on_host_menu_back_pressed"]
-[connection signal="host_pressed" from="ColorRect/HostMenu" to="." method="_on_host_menu_host_pressed"]
-[connection signal="back_pressed" from="ColorRect/JoinMenu" to="." method="_on_join_menu_back_pressed"]
-[connection signal="join_pressed" from="ColorRect/JoinMenu" to="." method="_on_join_menu_join_pressed"]
-[connection signal="timeout" from="ConnectTimer" to="." method="_on_connect_timer_timeout"]
+[connection signal="pressed" from="MainButtons/HBoxContainer/Singleplayer" to="." method="_on_singleplayer_pressed"]
+[connection signal="pressed" from="MainButtons/HBoxContainer/LocalMultiplayer" to="." method="_on_local_multiplayer_pressed"]
+[connection signal="pressed" from="MainButtons/HBoxContainer/HBoxContainer/hostGame" to="." method="_on_host_game_pressed"]
+[connection signal="pressed" from="MainButtons/HBoxContainer/HBoxContainer/JoinGame" to="." method="_on_join_game_pressed"]
+[connection signal="pressed" from="MainButtons/HBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="MainButtons/HBoxContainer/Quit" to="." method="_on_quit_pressed"]

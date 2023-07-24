@@ -1,25 +1,26 @@
-[gd_scene load_steps=5 format=3 uid="uid://gumop7him0p0"]
+[gd_scene load_steps=5 format=3 uid="uid://d2jlacl0iltrr"]
 
-[ext_resource type="Script" path="res://ui/lobby.gd" id="1_21k40"]
-[ext_resource type="PackedScene" uid="uid://c8lwmwbmi7f06" path="res://ui/back_ground.tscn" id="2_84g0u"]
+[ext_resource type="PackedScene" uid="uid://c8lwmwbmi7f06" path="res://ui/back_ground.tscn" id="1_j1lre"]
+[ext_resource type="Script" path="res://ui/sub_menu.gd" id="1_oursj"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_ftuaw"]
+[sub_resource type="LabelSettings" id="LabelSettings_r1i8d"]
 font_size = 32
 
-[sub_resource type="LabelSettings" id="LabelSettings_pxm28"]
+[sub_resource type="LabelSettings" id="LabelSettings_dq2vg"]
 font_size = 24
 
-[node name="Lobby" type="Control"]
+[node name="SubMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_21k40")
+script = ExtResource("1_oursj")
 
-[node name="BackGround" parent="." instance=ExtResource("2_84g0u")]
+[node name="BackGround" parent="." instance=ExtResource("1_j1lre")]
 layout_mode = 1
+metadata/_edit_lock_ = true
 
 [node name="Back" type="Button" parent="."]
 custom_minimum_size = Vector2(150, 0)
@@ -29,14 +30,14 @@ offset_left = 48.0
 offset_top = 40.0
 offset_right = 198.0
 offset_bottom = 93.0
-focus_next = NodePath("../Ready")
+focus_next = NodePath("../StartGame")
 focus_previous = NodePath(".")
 theme_override_font_sizes/font_size = 32
 text = "Back
 "
 
-[node name="Ready" type="Button" parent="."]
-custom_minimum_size = Vector2(150, 0)
+[node name="StartGame" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 1.0
@@ -50,22 +51,7 @@ focus_next = NodePath(".")
 focus_previous = NodePath("../Back")
 theme_override_font_sizes/font_size = 32
 toggle_mode = true
-text = "Ready"
-
-[node name="PlayerContainer" type="VBoxContainer" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -360.0
-offset_top = -252.0
-offset_right = 360.0
-offset_bottom = 68.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/separation = 11
+text = "Start Game"
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 1
@@ -75,9 +61,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -256.0
-offset_top = 65.0
+offset_top = -188.0
 offset_right = 256.0
-offset_bottom = 253.0
+offset_bottom = 188.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/v_separation = 20
@@ -87,7 +73,7 @@ columns = 2
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Map"
-label_settings = SubResource("LabelSettings_ftuaw")
+label_settings = SubResource("LabelSettings_r1i8d")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -104,12 +90,11 @@ offset_top = -24.0
 offset_right = 182.0
 offset_bottom = 24.0
 grow_vertical = 2
-label_settings = SubResource("LabelSettings_ftuaw")
+label_settings = SubResource("LabelSettings_r1i8d")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Import" type="Button" parent="GridContainer/Panel"]
-visible = false
 custom_minimum_size = Vector2(70, 0)
 layout_mode = 1
 anchors_preset = 6
@@ -129,7 +114,7 @@ text = "import"
 layout_mode = 2
 size_flags_horizontal = 3
 text = "speed"
-label_settings = SubResource("LabelSettings_ftuaw")
+label_settings = SubResource("LabelSettings_r1i8d")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -150,7 +135,6 @@ size_flags_horizontal = 3
 size_flags_vertical = 4
 max_value = 5.0
 value = 1.0
-editable = false
 ticks_on_borders = true
 
 [node name="SpeedLabel" type="Label" parent="GridContainer/Control"]
@@ -167,14 +151,14 @@ offset_bottom = 18.5
 grow_horizontal = 0
 grow_vertical = 2
 text = "x1.0"
-label_settings = SubResource("LabelSettings_pxm28")
+label_settings = SubResource("LabelSettings_dq2vg")
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Color1Label" type="Label" parent="GridContainer"]
 layout_mode = 2
 text = "Snake Color"
-label_settings = SubResource("LabelSettings_ftuaw")
+label_settings = SubResource("LabelSettings_r1i8d")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -183,15 +167,32 @@ custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_vertical = 4
 
+[node name="Color2Label" type="Label" parent="GridContainer"]
+visible = false
+layout_mode = 2
+text = "Player2 Color"
+label_settings = SubResource("LabelSettings_r1i8d")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player2Color" type="ColorPickerButton" parent="GridContainer"]
+visible = false
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+size_flags_vertical = 4
+
 [node name="FileDialog" type="FileDialog" parent="."]
 title = "Open a File"
+size = Vector2i(343, 161)
 ok_button_text = "打开"
 file_mode = 0
+access = 2
 filters = PackedStringArray("*.map ; Map File")
 
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
-[connection signal="toggled" from="Ready" to="." method="_on_ready_toggled"]
+[connection signal="pressed" from="StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="GridContainer/Panel/Import" to="." method="_on_import_pressed"]
 [connection signal="value_changed" from="GridContainer/Control/SpeedSlider" to="." method="_on_speed_slider_value_changed"]
 [connection signal="color_changed" from="GridContainer/Player1Color" to="." method="_on_player_1_color_color_changed"]
+[connection signal="color_changed" from="GridContainer/Player2Color" to="." method="_on_player_2_color_color_changed"]
 [connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

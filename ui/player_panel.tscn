@@ -22,6 +22,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PlayerName" type="Label" parent="."]
+clip_children = 1
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
@@ -31,6 +32,14 @@ grow_vertical = 2
 text = "Player"
 label_settings = SubResource("LabelSettings_wvvu2")
 vertical_alignment = 1
+
+[node name="PlayerColor" type="ColorRect" parent="PlayerName"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1

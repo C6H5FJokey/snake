@@ -1,0 +1,151 @@
+[gd_scene load_steps=5 format=3 uid="uid://b04tgtry3obpj"]
+
+[ext_resource type="Script" path="res://ui/settings.gd" id="1_bqsmb"]
+[ext_resource type="PackedScene" uid="uid://c8lwmwbmi7f06" path="res://ui/back_ground.tscn" id="1_v74yx"]
+[ext_resource type="Script" path="res://ui/volume_slider.gd" id="3_fihag"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7ghor"]
+font_size = 32
+
+[node name="Settings" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bqsmb")
+
+[node name="BackGround" parent="." instance=ExtResource("1_v74yx")]
+layout_mode = 1
+
+[node name="Back" type="Button" parent="."]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 1
+anchors_preset = -1
+offset_left = 48.0
+offset_top = 40.0
+offset_right = 198.0
+offset_bottom = 93.0
+focus_next = NodePath("../Ready")
+focus_previous = NodePath(".")
+theme_override_font_sizes/font_size = 32
+text = "Back
+"
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -188.0
+offset_right = 256.0
+offset_bottom = 188.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 2
+
+[node name="Label" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Modifying the master Volume"
+mouse_filter = 1
+text = "Master"
+label_settings = SubResource("LabelSettings_7ghor")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MasterVolume" type="HSlider" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.02
+value = 0.5
+tick_count = 3
+script = ExtResource("3_fihag")
+bus_name = "Master"
+
+[node name="Label3" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Modifying the music Volume"
+mouse_filter = 1
+text = "Music"
+label_settings = SubResource("LabelSettings_7ghor")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicVolume" type="HSlider" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.02
+value = 1.0
+tick_count = 3
+script = ExtResource("3_fihag")
+bus_name = "Music"
+
+[node name="Label4" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Modifying the sound Volume"
+mouse_filter = 1
+text = "Sound"
+label_settings = SubResource("LabelSettings_7ghor")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SoundVolume" type="HSlider" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.02
+value = 1.0
+tick_count = 3
+script = ExtResource("3_fihag")
+bus_name = "Sound"
+
+[node name="Label2" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Modifying the speed of the snake patch"
+mouse_filter = 1
+text = "Tween Speed"
+label_settings = SubResource("LabelSettings_7ghor")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TweenSpeed" type="HSlider" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.1
+value = 0.5
+tick_count = 3
+
+[node name="Label5" type="Label" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Decide whether or not to display scores in the game"
+mouse_filter = 1
+text = "Show Scores"
+label_settings = SubResource("LabelSettings_7ghor")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ShowScores" type="CheckButton" parent="GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+button_pressed = true
+icon_alignment = 1
+
+[connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
+[connection signal="value_changed" from="GridContainer/TweenSpeed" to="." method="_on_tween_speed_value_changed"]
+[connection signal="toggled" from="GridContainer/ShowScores" to="." method="_on_show_scores_toggled"]
