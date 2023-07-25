@@ -19,7 +19,7 @@ func _ready() -> void:
 				if file:
 					Net.map_info = file.get_var() as Dictionary
 				else:
-					print(file.get_error())
+					print(file.get_open_error())
 		if Net.create_server(port, 4):
 			get_tree().change_scene_to_file("res://ui/lobby.tscn")
 		else:
