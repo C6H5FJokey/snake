@@ -26,6 +26,7 @@ func _init_snakes():
 		snake.map_resource = map_resource
 		snake.start_pos = map_resource.start_pos[snakes.size()]
 		snake.move_direction = map_resource.move_direction[snakes.size()]
+		snake.wait_time = wait_time
 		snakes.append(snake)
 		add_child(snake, true)
 		snake.owner = self
@@ -78,6 +79,10 @@ func game_over(id: int = -1) -> void:
 	if snakes.size() <= 1:
 		super()
 		$UI/Outcome/Buttons/Back.grab_focus.call_deferred()
+		if is_multiplayer_authority():
+			game_over.rpc()
+			if Net.player_name == "--server":
+				get_tree().change_scene_to_file("res://ui/lobby.tscn")
 		return
 	if not id == -1:
 		if not id == 0:

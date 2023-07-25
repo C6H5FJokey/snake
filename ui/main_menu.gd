@@ -5,7 +5,7 @@ extends Control
 
 
 func _ready() -> void:
-	if OS.has_feature("server"):
+	if "--server" in OS.get_cmdline_args():
 		Net.player_name = "--server"
 		var port = Net.PORT
 		var config := ConfigFile.new()

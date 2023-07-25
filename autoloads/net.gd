@@ -2,7 +2,8 @@ extends Node
 
 signal connection_confirmed
 signal player_info_updated
-signal updated(path: NodePath, property: String, value: Variant)
+signal ready_status_updated
+signal updated(path: NodePath, property: String, value: Variant, from_id: int)
 
 const PORT: int = 4433
 
@@ -56,3 +57,16 @@ func send_update(id: int, path: NodePath, property: String):
 @rpc("any_peer")
 func update(path: NodePath, property: String, value: Variant, from_id: int):
 	updated.emit(path, property, value, from_id)
+
+
+func _on_updated(path: NodePath, property: String, value: Variant, from_id: int):
+	if path == get_path():
+		match property:
+			"ready_status":
+				Net.ready_dict[from_id] = value
+				Net.send_update(0, Net.get_path(), "ready_dict")
+
+@rpc("any_peer")
+func set_ready_status(id: int, status: bool):
+	Net.ready_dict[id] = status
+	ready_status_updated.emit()

@@ -24,12 +24,16 @@ func _ready() -> void:
 	if not is_multiplayer_authority():
 		Net.request_update(multiplayer.get_unique_id(), Net.get_path(), "ready_dict")
 		Net.request_update(multiplayer.get_unique_id(), Net.get_path(), "map_info")
+		Net.request_update(multiplayer.get_unique_id(), Net.get_path(), "game_speed")
+	elif Net.player_name == "--server":
+		Net.ready_dict[multiplayer.get_unique_id()] = true
 	player_1_color.color = Game.player_1_color
 	_update_ui()
 	ready_btn.grab_focus.call_deferred()
 	Net.set_my_player_info.rpc(multiplayer.get_unique_id(), Net.player_name, Game.player_1_color)
 	Net.player_info_updated.connect(_update_player_container)
 	Net.updated.connect(_on_net_updated)
+	Net.ready_status_updated.connect(_on_net_ready_status_updated)
 	multiplayer.peer_connected.connect(_on_multiplayer_peer_connected)
 	multiplayer.peer_disconnected.connect(_on_multiplayer_peer_disconnected)
 	multiplayer.server_disconnected.connect(_on_multiplayer_server_disconnected)
@@ -45,7 +49,7 @@ func _on_multiplayer_peer_connected(id: int):
 func _on_multiplayer_peer_disconnected(id: int):
 	Net.player_info.erase(id)
 	player_id.erase(id)
-	if is_multiplayer_authority() and Net.ready_dict.get(id, false):
+	if is_multiplayer_authority() and Net.ready_dict.get(id, false) and Net.player_name != "--server":
 		ready_btn.button_pressed = false
 		_on_ready_toggled(false)
 	_update_player_container()
@@ -100,16 +104,13 @@ func _on_player_panel_player_removed(id: int) -> void:
 
 
 func _on_ready_toggled(button_pressed: bool) -> void:
-	_ready_toggled(multiplayer.get_unique_id(), button_pressed)
+	Net.set_ready_status(multiplayer.get_unique_id(), button_pressed)
 	if not is_multiplayer_authority():
-		Net.update.rpc_id(1, Net.get_path(), "ready_status", button_pressed, multiplayer.get_unique_id())
+		Net.set_ready_status.rpc_id(1, multiplayer.get_unique_id(), button_pressed)
 
 
-@rpc("any_peer")
-func _ready_toggled(id: int, pressd: bool) -> void:
-	Net.ready_dict[id] = pressd
-	var player_panel: PlayerPanel = player_container.get_node(str(id))
-	player_panel.ready_label.visible = pressd
+func _on_net_ready_status_updated():
+	_update_player_container()
 	if is_multiplayer_authority():
 		Net.send_update(0, Net.get_path(), "ready_dict")
 		if player_id.all(func(id: int): return Net.ready_dict.get(id, false)):
@@ -138,12 +139,6 @@ func _on_net_updated(path: NodePath, property: String, value: Variant, from_id: 
 			"ready_dict":
 				Net.ready_dict = value
 				_update_player_container()
-			"ready_status":
-				Net.ready_dict[from_id] = value
-				Net.send_update(0, Net.get_path(), "read_dict")
-				_update_player_container()
-				if player_id.all(func(id: int): return Net.ready_dict.get(id, false)):
-					start_game.rpc()
 			"map_info":
 				Net.map_info = value
 				_update_game_settings()
