@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bs13vkhvmum6w"]
+[gd_scene load_steps=5 format=3 uid="uid://bs13vkhvmum6w"]
 
 [ext_resource type="Script" path="res://ui/main_menu.gd" id="1_rfcd8"]
 [ext_resource type="PackedScene" uid="uid://c8lwmwbmi7f06" path="res://ui/back_ground.tscn" id="2_1oxgv"]
@@ -6,6 +6,9 @@
 [sub_resource type="LabelSettings" id="LabelSettings_jqssr"]
 font_size = 128
 outline_size = 8
+
+[sub_resource type="LabelSettings" id="LabelSettings_oxpwe"]
+font_size = 24
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -101,6 +104,20 @@ text = "Settings"
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Quit"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -102.0
+offset_right = 137.0
+offset_bottom = -28.0
+grow_vertical = 0
+text = "v1.0.0
+by Jokey"
+label_settings = SubResource("LabelSettings_oxpwe")
 
 [connection signal="pressed" from="MainButtons/HBoxContainer/Singleplayer" to="." method="_on_singleplayer_pressed"]
 [connection signal="pressed" from="MainButtons/HBoxContainer/LocalMultiplayer" to="." method="_on_local_multiplayer_pressed"]

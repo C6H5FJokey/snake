@@ -91,6 +91,7 @@ script = ExtResource("3_fihag")
 bus_name = "Music"
 
 [node name="Label4" type="Label" parent="GridContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 tooltip_text = "Modifying the sound Volume"
@@ -101,6 +102,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SoundVolume" type="HSlider" parent="GridContainer"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4

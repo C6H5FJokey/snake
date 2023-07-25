@@ -8,6 +8,7 @@ extends TouchScreenButton
 
 var center_position: Vector2 = Vector2.ZERO
 var touch_position: Vector2 = Vector2.ZERO
+var finger_index: int = -1
 
 func _ready() -> void:
 	var texture: Texture2D = texture_normal
@@ -24,11 +25,15 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventScreenTouch or event is InputEventScreenDrag:
 		touch_position = event.position - (global_position + center_position)
 		if abs(touch_position.aspect())>=1:
+			if abs(touch_position.x) > center_position.x:
+				return
 			if touch_position.x <= 0:
 				parse_event.action = action_left
 			else:
 				parse_event.action = action_right
 		else:
+			if abs(touch_position.y) > center_position.y:
+				return
 			if touch_position.y <= 0:
 				parse_event.action = action_up
 			else:
