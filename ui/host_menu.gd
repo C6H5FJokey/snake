@@ -18,6 +18,7 @@ func _on_host_pressed() -> void:
 	if not _check_input():
 		return
 	var max_clients: int = 3 if not player_name.text == "--server" else 4
+	Net.player_name = player_name.text
 	if not Net.create_server(int(port.text) if port.text else Net.PORT, max_clients):
 		echo.text = "Can't host game!"
 		echo_color = Color.RED
@@ -31,6 +32,9 @@ func _check_input() -> bool:
 	if player_name.text == "":
 		echo.text = "Please input player name!"
 		return false
+	if not port.text.is_empty() and (not port.text.is_valid_int() or int(port.text) < 1 or int(port.text) > 65535):
+		echo.text = "Port must be between 1 and 65535."
+		return false
 	echo.text = "Waiting..."
 	_set_echo_color(Color.WHITE)
 	return true
@@ -42,4 +46,3 @@ func _set_echo_color(v: Color) -> void:
 
 func _get_echo_color() -> Color:
 	return echo.label_settings.font_color
-

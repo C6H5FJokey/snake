@@ -27,10 +27,10 @@ remote_path = NodePath("../../../SplitScreen/SubViewports/SubViewportContainer/S
 
 [node name="InputController" type="Node" parent="Player1" index="1"]
 script = ExtResource("4_oql73")
-move_left = &"2p_left"
-move_right = &"2p_right"
-move_up = &"2p_up"
-move_down = &"2p_down"
+move_left = &"p2_left"
+move_right = &"p2_right"
+move_up = &"p2_up"
+move_down = &"p2_down"
 
 [node name="Player2" parent="." index="1" node_paths=PackedStringArray("controller") instance=ExtResource("2_tu0l4")]
 controller = NodePath("InputController")
@@ -42,10 +42,10 @@ remote_path = NodePath("../../../SplitScreen/SubViewports/SubViewportContainer2/
 script = ExtResource("4_oql73")
 
 [node name="TouchButton2" parent="UI/TouchButton" index="0"]
-action_left = "2p_left"
-action_right = "2p_right"
-action_up = "2p_up"
-action_down = "2p_down"
+action_left = "p2_left"
+action_right = "p2_right"
+action_up = "p2_up"
+action_down = "p2_down"
 
 [node name="TouchButton2" type="Control" parent="UI" index="3"]
 layout_mode = 3
@@ -58,7 +58,10 @@ grow_horizontal = 0
 grow_vertical = 0
 
 [node name="TouchButton2" parent="UI/TouchButton2" index="0" instance=ExtResource("5_pg3q3")]
-position = Vector2(-368, -312)
+offset_left = -272.0
+offset_top = -280.0
+offset_right = -32.0
+offset_bottom = -40.0
 texture_normal = ExtResource("6_3t88p")
 
 [node name="Scores" type="Label" parent="UI" index="4"]

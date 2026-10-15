@@ -17,13 +17,12 @@ func _ready() -> void:
 			connect_timer.stop()
 			get_tree().change_scene_to_file("res://ui/lobby.tscn")	
 	)
+	Net.connection_error.connect(_on_connection_error)
 
 
 func _on_back_pressed() -> void:
 	connect_timer.stop()
-	if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTING:
-		multiplayer.multiplayer_peer.close()
-		join.disabled = false
+	Net.leave_session()
 	get_tree().change_scene_to_file("res://ui/main_menu.tscn")
 
 
@@ -47,6 +46,9 @@ func _check_input() -> bool:
 	if address.text == "":
 		echo.text = "Please input address!"
 		return false
+	if not port.text.is_empty() and (not port.text.is_valid_int() or int(port.text) < 1 or int(port.text) > 65535):
+		echo.text = "Port must be between 1 and 65535."
+		return false
 	echo.text = "Waiting..."
 	_set_echo_color(Color.WHITE)
 	return true
@@ -62,6 +64,13 @@ func _get_echo_color() -> Color:
 
 func _on_connect_timer_timeout() -> void:
 	join.disabled = false
-	multiplayer.multiplayer_peer.close()
+	Net.leave_session()
 	echo.text = "Join game timeout!"
+	echo_color = Color.RED
+
+
+func _on_connection_error(message: String) -> void:
+	connect_timer.stop()
+	join.disabled = false
+	echo.text = message
 	echo_color = Color.RED

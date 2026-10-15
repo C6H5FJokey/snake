@@ -4,18 +4,30 @@ signal to_started
 
 @onready var label: Label = $Label
 
-var wait_time: float = 1
+var wait_time: float = 1.0
+var _elapsed: float = 0.0
+var _count: int = 3
+var _active: bool = false
 
-func _ready() -> void:
-	#_on_to_start()
-	pass
 
 func _on_to_start() -> void:
+	_count = 3
+	_elapsed = 0.0
+	_active = true
+	label.text = "3"
 	show()
-	for i in range(3, 0, -1):
-		label.text = str(i)
-		await get_tree().create_timer(wait_time).timeout
-	label.text = "Snake"
-	await get_tree().create_timer(wait_time).timeout
-	to_started.emit()
-	hide()
+
+
+func _process(delta: float) -> void:
+	if not _active:
+		return
+	_elapsed += delta
+	while _elapsed >= wait_time and _active:
+		_elapsed -= wait_time
+		_count -= 1
+		if _count < 0:
+			_active = false
+			hide()
+			to_started.emit()
+		else:
+			label.text = str(_count) if _count > 0 else "Snake"

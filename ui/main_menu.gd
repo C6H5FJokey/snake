@@ -6,6 +6,14 @@ extends Control
 
 func _ready() -> void:
 	singleplayer_btn.grab_focus.call_deferred()
+	if not Net.status_message.is_empty():
+		var dialog := AcceptDialog.new()
+		dialog.dialog_text = Net.status_message
+		Net.status_message = ""
+		dialog.confirmed.connect(dialog.queue_free)
+		dialog.canceled.connect(dialog.queue_free)
+		add_child(dialog)
+		dialog.popup_centered.call_deferred()
 
 
 func _on_singleplayer_pressed() -> void:

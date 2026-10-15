@@ -17,19 +17,19 @@ func _notification(what: int) -> void:
 			save_settings()
 
 
-func save_settings():
+func save_settings(path: String = "user://settings.cfg") -> Error:
 	var config := ConfigFile.new()
 	config.set_value("Volume", "master", master_volume)
 	config.set_value("Volume", "music", music_volume)
 	config.set_value("Volume", "sound", sound_volume)
 	config.set_value("Game", "tween_speed", tween_speed)
-	config.set_value("Game", "show_score", show_scores)
-	config.save("user://settings.cfg")
+	config.set_value("Game", "show_scores", show_scores)
+	return config.save(path)
 
 
-func load_settings():
+func load_settings(path: String = "user://settings.cfg") -> void:
 	var config := ConfigFile.new()
-	var err := config.load("user://settings.cfg")
+	var err := config.load(path)
 	if err != OK:
 		return
 	var volumes: Array
@@ -42,4 +42,4 @@ func load_settings():
 			linear_to_db(get("%s_volume"%volume.to_lower()))
 		)
 	tween_speed = config.get_value("Game", "tween_speed", tween_speed)
-	show_scores = config.get_value("Game", "show_scores", show_scores)
+	show_scores = config.get_value("Game", "show_scores", config.get_value("Game", "show_score", show_scores))

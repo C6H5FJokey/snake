@@ -29,7 +29,12 @@ func _on_back_pressed() -> void:
 
 
 func _on_start_game_pressed() -> void:
-	Game.map_resource.from_dict(Game.map_info)
+	var layout := MapResource.new()
+	var player_count: int = 2 if Game.play_mode == Game.MULTIPLAYER else 1
+	if not layout.from_dict(Game.map_info) or not layout.validate(player_count).is_empty():
+		_show_map_error()
+		return
+	Game.map_resource = layout
 	match Game.play_mode:
 		Game.SINGLE:
 			get_tree().change_scene_to_file("res://game_scene/singleplayer_scene.tscn")
@@ -55,9 +60,18 @@ func _on_player_2_color_color_changed(color: Color) -> void:
 
 
 func _on_file_dialog_file_selected(path: String) -> void:
-	var file := FileAccess.open(path, FileAccess.READ)
-	if not file:
-		print_debug(file.get_error())
+	var layout := MapResource.new()
+	if not layout.load_map(path):
+		_show_map_error()
 		return
-	Game.map_info = file.get_var() as Dictionary
+	Game.map_info = layout.to_dict()
 	map_name.text = Game.map_info.name
+
+
+func _show_map_error() -> void:
+	var dialog := AcceptDialog.new()
+	dialog.dialog_text = "Invalid map. Check dimensions, cells and snake spawns."
+	dialog.confirmed.connect(dialog.queue_free)
+	dialog.canceled.connect(dialog.queue_free)
+	add_child(dialog)
+	dialog.popup_centered()

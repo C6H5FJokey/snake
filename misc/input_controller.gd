@@ -1,17 +1,20 @@
-extends Controller
 class_name InputController
+extends Controller
 
-@export var move_left: StringName = "ui_left"
-@export var move_right: StringName = "ui_right"
-@export var move_up: StringName = "ui_up"
-@export var move_down: StringName = "ui_down"
+@export var move_left: StringName = &"p1_left"
+@export var move_right: StringName = &"p1_right"
+@export var move_up: StringName = &"p1_up"
+@export var move_down: StringName = &"p1_down"
+
 
 func _unhandled_input(event: InputEvent) -> void:
+	if not enabled or (event is InputEventKey and event.echo):
+		return
 	if event.is_action_pressed(move_left):
-		next_move = Vector2i.LEFT
-	if event.is_action_pressed(move_right):
-		next_move = Vector2i.RIGHT
-	if event.is_action_pressed(move_up):
-		next_move = Vector2i.UP
-	if event.is_action_pressed(move_down):
-		next_move = Vector2i.DOWN
+		submit_direction(Vector2i.LEFT)
+	elif event.is_action_pressed(move_right):
+		submit_direction(Vector2i.RIGHT)
+	elif event.is_action_pressed(move_up):
+		submit_direction(Vector2i.UP)
+	elif event.is_action_pressed(move_down):
+		submit_direction(Vector2i.DOWN)

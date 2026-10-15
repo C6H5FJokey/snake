@@ -15,6 +15,17 @@ var player_2_color: Color = Color("567b79")
 
 func _ready() -> void:
 	load_settings()
+	for player: int in 2:
+		for direction: String in ["left", "right", "up", "down"]:
+			var action := StringName("p%d_%s" % [player + 1, direction])
+			var original := StringName(("ui_" if player == 0 else "2p_") + direction)
+			if not InputMap.has_action(action):
+				InputMap.add_action(action)
+				for event: InputEvent in InputMap.action_get_events(original):
+					var binding: InputEvent = event.duplicate()
+					if binding is InputEventJoypadButton or binding is InputEventJoypadMotion:
+						binding.device = player
+					InputMap.action_add_event(action, binding)
 
 
 func _notification(what: int) -> void:
